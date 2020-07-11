@@ -1,4 +1,5 @@
 const express = require('express');
+const bcrypt = require('bcryptjs');
 
 const User = require('../models/User');
 
@@ -19,6 +20,27 @@ router.post('/register', async (request, response) => {
     } catch (err) {
         console.log(err);
         return response.status(400).send({'error': 'Registration failed.'});
+    }
+});
+
+router.post('/authenticate', async (request, response) => {
+    const { email, password } = request.body;
+    try {
+        const user = await User.findOne({ email }).select('+password');
+
+        if (!user) {
+            return response.status(400).send({'error': 'User not found.'})
+        }
+
+        if (!await bcrypt.compare(password, user.password)) {
+            return response.status(400).send({'error': 'Invalid password.'});
+        }
+
+        response.send({ user });
+
+    } catch (err) {
+        console.log(err);
+        return response.status(400).send({'error': 'Authentication failed.'})
     }
 });
 
