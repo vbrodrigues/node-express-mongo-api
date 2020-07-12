@@ -6,12 +6,7 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
-const authController = require('./controllers/authController');
-const getHealthCheck = require('./controllers/getHealthCheck');
-const projectController = require('./controllers/projectController');
-
-authController(app);
-getHealthCheck(app);
-projectController(app);
+// The index.js file inside controllers folder will import all the controllers and pass the app
+require('./app/controllers/index')(app);
 
 app.listen(3000);

@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const authConfig = require('../config/auth');
+const authConfig = require('../../config/auth');
 
 module.exports = (request, response, next) => {
     // If next() is called, the middleware allows next step (controller). Otherwise, it doesn't allow to go any further
