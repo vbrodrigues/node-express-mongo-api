@@ -66,7 +66,7 @@ router.put('/:projectId', async (request, response) => {
         }, { new: true });
 
         project.tasks = [];
-        await Task.remove({ project: project._id });
+        await Task.deleteOne({ project: project._id });
 
         await Promise.all(tasks.map(async task => {
             const projectTask = new Task({ ...task, project: project._id });
